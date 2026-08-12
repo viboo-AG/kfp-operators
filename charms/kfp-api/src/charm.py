@@ -160,7 +160,6 @@ class KfpApiOperator(CharmBase):
         self.s3 = S3Requirer(
             self,
             relation_name="s3-credentials",
-            bucket=self.model.config["object-store-bucket-name"],
         )
 
         self.prometheus_provider = MetricsEndpointProvider(
