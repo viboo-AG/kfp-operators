@@ -11,6 +11,10 @@ options:
     type: boolean
     default: true
     description: Enable Argo log archive
+  argo-archive-key-format:
+    type: string
+    default: 'artifacts/{{pod.name}}'
+    description: S3 key prefix for archived logs. Must match argo-controller key-format.
   disable-gke-metadata:
     type: boolean
     default: true

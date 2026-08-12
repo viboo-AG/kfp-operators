@@ -13,6 +13,7 @@ class MlPipelineUiInputs:
 
     ALLOW_CUSTOM_VISUALIZATIONS: bool
     ARGO_ARCHIVE_BUCKETNAME: str
+    ARGO_ARCHIVE_KEYFORMAT: str
     ARGO_ARCHIVE_LOGS: bool
     DISABLE_GKE_METADATA: bool
     FRONTEND_SERVER_NAMESPACE: str
@@ -61,13 +62,7 @@ class MlPipelineUiPebbleService(PebbleServiceComponent):
                         # https://github.com/canonical/argo-operators/blob/main/charms/argo-controller/src/components/pebble_component.py
                         # TODO: Update the environment variables below after working on:
                         # https://github.com/canonical/kfp-operators/issues/822
-                        "ARGO_KEYFORMAT": (
-                            "artifacts/{{workflow.name}}/"
-                            "{{workflow.creationTimestamp.Y}}/"
-                            "{{workflow.creationTimestamp.m}}/"
-                            "{{workflow.creationTimestamp.d}}/"
-                            "{{pod.name}}"
-                        ),
+                        "ARGO_KEYFORMAT": inputs.ARGO_ARCHIVE_KEYFORMAT,
                         # TODO: This should come from relation to kfp-profile-controller.
                         #  It is the name/port of the user-specific artifact accessor
                         "ARTIFACTS_SERVICE_PROXY_NAME": "ml-pipeline-ui-artifact",

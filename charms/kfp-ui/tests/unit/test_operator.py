@@ -328,6 +328,7 @@ def test_pebble_services_running_object_storage(harness: Harness, mocked_kuberne
     )
     assert environment["HIDE_SIDENAV"] == str(harness.charm.config.get("hide-sidenav")).lower()
     assert environment["ARGO_ARCHIVE_BUCKETNAME"] == "mlpipeline"
+    assert environment["ARGO_KEYFORMAT"] == harness.charm.config.get("argo-archive-key-format")
     assert environment["MINIO_HOST"] == MOCK_OBJECT_STORAGE_DATA["service"]
     assert environment["MINIO_NAMESPACE"] == MOCK_OBJECT_STORAGE_DATA["namespace"]
     assert environment["MINIO_PORT"] == str(MOCK_OBJECT_STORAGE_DATA["port"])
@@ -370,6 +371,7 @@ def test_pebble_services_running_s3(harness: Harness, mocked_kubernetes_service_
     assert service.is_running()
     environment = container.get_plan().services["ml-pipeline-ui"].environment
     assert environment["ARGO_ARCHIVE_BUCKETNAME"] == MOCK_S3_DATA["bucket"]
+    assert environment["ARGO_KEYFORMAT"] == harness.charm.config.get("argo-archive-key-format")
     assert environment["MINIO_HOST"] == "s3.example.com"
     assert environment["MINIO_NAMESPACE"] == ""
     assert environment["MINIO_PORT"] == "443"
