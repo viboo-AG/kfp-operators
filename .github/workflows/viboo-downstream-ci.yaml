@@ -1,0 +1,45 @@
+name: Viboo downstream CI
+
+on:
+  push:
+    branches:
+      - "release/**"
+
+permissions:
+  contents: read
+
+jobs:
+  lint-and-unit:
+    name: Lint and unit tests | ${{ matrix.charm }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        charm:
+          - kfp-api
+          - kfp-profile-controller
+          - kfp-ui
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - run: pipx install tox
+      - run: tox -vve ${{ matrix.charm }}-lint
+      - run: tox -vve ${{ matrix.charm }}-unit
+
+  build:
+    name: Pack charm | ${{ matrix.charm }}
+    strategy:
+      fail-fast: false
+      matrix:
+        charm:
+          - kfp-api
+          - kfp-profile-controller
+          - kfp-ui
+    uses: canonical/data-platform-workflows/.github/workflows/build_charm.yaml@v38.0.0
+    with:
+      path-to-charm-directory: charms/${{ matrix.charm }}
+      cache: true
+    permissions:
+      actions: read
+      contents: read
