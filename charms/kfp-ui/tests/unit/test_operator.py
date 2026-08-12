@@ -27,6 +27,7 @@ MOCK_OBJECT_STORAGE_DATA = {
 MOCK_S3_DATA = {
     "access-key": "s3-access-key",
     "secret-key": "s3-secret-key",
+    "bucket": "s3-archive-bucket",
     "endpoint": "https://s3.example.com:443",
 }
 MOCK_KFP_API_DATA = {"service-name": "service-name", "service-port": "1234"}
@@ -326,6 +327,7 @@ def test_pebble_services_running_object_storage(harness: Harness, mocked_kuberne
         == str(harness.charm.config.get("allow-custom-visualizations")).lower()
     )
     assert environment["HIDE_SIDENAV"] == str(harness.charm.config.get("hide-sidenav")).lower()
+    assert environment["ARGO_ARCHIVE_BUCKETNAME"] == "mlpipeline"
     assert environment["MINIO_HOST"] == MOCK_OBJECT_STORAGE_DATA["service"]
     assert environment["MINIO_NAMESPACE"] == MOCK_OBJECT_STORAGE_DATA["namespace"]
     assert environment["MINIO_PORT"] == str(MOCK_OBJECT_STORAGE_DATA["port"])
@@ -367,6 +369,7 @@ def test_pebble_services_running_s3(harness: Harness, mocked_kubernetes_service_
     service = container.get_service("ml-pipeline-ui")
     assert service.is_running()
     environment = container.get_plan().services["ml-pipeline-ui"].environment
+    assert environment["ARGO_ARCHIVE_BUCKETNAME"] == MOCK_S3_DATA["bucket"]
     assert environment["MINIO_HOST"] == "s3.example.com"
     assert environment["MINIO_NAMESPACE"] == ""
     assert environment["MINIO_PORT"] == "443"

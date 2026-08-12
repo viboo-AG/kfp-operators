@@ -12,6 +12,7 @@ class MlPipelineUiInputs:
     """Defines the required inputs for MlPipelineUiPebbleService."""
 
     ALLOW_CUSTOM_VISUALIZATIONS: bool
+    ARGO_ARCHIVE_BUCKETNAME: str
     ARGO_ARCHIVE_LOGS: bool
     DISABLE_GKE_METADATA: bool
     FRONTEND_SERVER_NAMESPACE: str
@@ -52,7 +53,7 @@ class MlPipelineUiPebbleService(PebbleServiceComponent):
                             inputs.ALLOW_CUSTOM_VISUALIZATIONS
                         ).lower(),
                         "ARGO_ARCHIVE_ARTIFACTORY": "minio",
-                        "ARGO_ARCHIVE_BUCKETNAME": "mlpipeline",
+                        "ARGO_ARCHIVE_BUCKETNAME": inputs.ARGO_ARCHIVE_BUCKETNAME,
                         "ARGO_ARCHIVE_LOGS": inputs.ARGO_ARCHIVE_LOGS,
                         # Must have the same value as the `keyFormat` specified in the
                         # `argo-workflow-controller-configmap` ConfigMap owned by

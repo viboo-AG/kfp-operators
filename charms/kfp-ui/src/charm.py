@@ -280,6 +280,7 @@ class KfpUiOperator(CharmBase):
         object_storage = self.object_storage_validator.component.get_normalized_data()
         return MlPipelineUiInputs(
             ALLOW_CUSTOM_VISUALIZATIONS=self.model.config["allow-custom-visualizations"],
+            ARGO_ARCHIVE_BUCKETNAME=object_storage["bucket"],
             ARGO_ARCHIVE_LOGS=self.model.config["argo-archive-logs"],
             DISABLE_GKE_METADATA=self.model.config["disable-gke-metadata"],
             FRONTEND_SERVER_NAMESPACE=self.model.name,

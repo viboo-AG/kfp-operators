@@ -118,6 +118,7 @@ class ObjectStorageValidatorComponent(Component):
             return {
                 "access_key": data["access-key"],
                 "secret_key": data["secret-key"],
+                "bucket": data.get("bucket", "mlpipeline"),
                 # The s3 interface has no namespace concept. An empty namespace makes the
                 # ml-pipeline-ui frontend use MINIO_HOST as-is (without a `.namespace` suffix).
                 "host": host,
@@ -158,6 +159,7 @@ class ObjectStorageValidatorComponent(Component):
             return {
                 "access_key": data["access-key"],
                 "secret_key": data["secret-key"],
+                "bucket": data.get("bucket", "mlpipeline"),
                 "host": data["service"],
                 "namespace": data["namespace"],
                 "port": str(data["port"]),
