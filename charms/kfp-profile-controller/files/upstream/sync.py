@@ -389,6 +389,10 @@ def server_factory(visualization_server_image,
                                         {'name': "MINIO_HOST", 'value': minio_host},
                                         {'name': "MINIO_NAMESPACE", 'value': minio_namespace},
                                         {
+                                            'name': "MINIO_SSL",
+                                            'value': "true" if minio_ssl else "false",
+                                        },
+                                        {
                                             "name": "MINIO_ACCESS_KEY",
                                             "valueFrom": {
                                                 "secretKeyRef": {

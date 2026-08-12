@@ -419,6 +419,11 @@ def validate_profile_deployments_with_custom_images(
 
     # Assert images
     assert pipeline_ui_deployment.spec.template.spec.containers[0].image == frontend_image
+    artifact_proxy_environment = {
+        variable.name: variable.value
+        for variable in pipeline_ui_deployment.spec.template.spec.containers[0].env
+    }
+    assert artifact_proxy_environment["MINIO_SSL"] == "true"
     assert (
         visualization_server_deployment.spec.template.spec.containers[0].image
         == visualisation_image
